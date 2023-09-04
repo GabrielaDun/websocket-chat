@@ -1,4 +1,4 @@
-
+const socket = io();
 
 const loginForm = document.querySelector('#welcome-form');
 const messagesSection = document.querySelector('#message-section');
@@ -8,6 +8,8 @@ const userNameInput = document.querySelector('#username')
 const messageContentInput = document.querySelector('#message-content')
 
 let userName = '';
+
+socket.on('message', ({ author, content }) => addMessage(author, content));
 
 function login(event) {
     event.preventDefault();
@@ -26,11 +28,12 @@ function sendMessage(event) {
         alert('Write a message')
     } else {
         addMessage(userName, messageContentInput.value)
+        socket.emit('message', { author: userName, content: messageContentInput.value })
         messageContentInput.value = ''
     }
 }
 
-function sendMessage(author, message) {
+function addMessage(author, message) {
     const list = document.createElement('li')
     list.className.add('message message--received');
     if (author === userName) message.classList.add('message-self');
