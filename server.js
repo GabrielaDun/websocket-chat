@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
         if (userLeft !== -1 ) {
             console.log('User ' + users[i].name + ' has logged off');
             socket.broadcast.emit('message', {author: 'Chat bot', content: `User ${users[i].name} has left the conversation... `})
-            users.splice(i, 1);
+            users.splice(userLeft, 1);
             console.log(users)
         }
     })
